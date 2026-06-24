@@ -1,7 +1,7 @@
 import { ApiTags } from '@nestjs/swagger';
 import { CreateReaccionDto } from './dto/create-reaccion.dto';
 import { ReaccionesService } from './reacciones.service';
-import { Controller, Body, Post, Get, Param, Put, Delete, Query } from '@nestjs/common';
+import { Controller, Body, Post, Get, Param, Put, Patch, Delete, Query } from '@nestjs/common';
 import { SearchReaccionDto } from './dto/search-reaccion.dto';
 import { UpdateReaccionDto } from './dto/update-reaccion.dto';
 
@@ -40,6 +40,16 @@ export class ReaccionesController {
 
     @Put(':id')
     update(
+        @Param('id')
+        id: string,
+        @Body()
+        dto: UpdateReaccionDto,
+    ) {
+        return this.reaccionesService.update(id, dto);
+    }
+
+    @Patch(':id')
+    patch(
         @Param('id')
         id: string,
         @Body()

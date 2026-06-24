@@ -1,7 +1,7 @@
 import { ApiTags } from '@nestjs/swagger';
 import { CreateSeguidorDto } from './dto/create-seguidor.dto';
 import { SeguidoresService } from './seguidores.service';
-import { Controller, Body, Post, Get, Param, Put, Delete, Query } from '@nestjs/common';
+import { Controller, Body, Post, Get, Param, Put, Patch, Delete, Query } from '@nestjs/common';
 import { SearchSeguidorDto } from './dto/search-seguidor.dto';
 import { UpdateSeguidorDto } from './dto/update-seguidor.dto';
 
@@ -40,6 +40,16 @@ export class SeguidoresController {
 
     @Put(':id')
     update(
+        @Param('id')
+        id: string,
+        @Body()
+        dto: UpdateSeguidorDto,
+    ) {
+        return this.seguidoresService.update(id, dto);
+    }
+
+    @Patch(':id')
+    patch(
         @Param('id')
         id: string,
         @Body()

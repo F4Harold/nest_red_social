@@ -1,7 +1,7 @@
 import { ApiTags } from '@nestjs/swagger';
 import { CreateComentarioDto } from './dto/create-comentario.dto';
 import { ComentariosService } from './comentarios.service';
-import { Controller, Body, Post, Get, Param, Put, Delete, Query } from '@nestjs/common';
+import { Controller, Body, Post, Get, Param, Put, Patch, Delete, Query } from '@nestjs/common';
 import { SearchComentarioDto } from './dto/search-comentario.dto';
 import { UpdateComentarioDto } from './dto/update-comentario.dto';
 
@@ -40,6 +40,16 @@ export class ComentariosController {
 
     @Put(':id')
     update(
+        @Param('id')
+        id: string,
+        @Body()
+        dto: UpdateComentarioDto,
+    ) {
+        return this.comentariosService.update(id, dto);
+    }
+
+    @Patch(':id')
+    patch(
         @Param('id')
         id: string,
         @Body()

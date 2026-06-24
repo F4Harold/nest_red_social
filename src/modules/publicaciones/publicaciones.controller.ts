@@ -1,7 +1,7 @@
 import { ApiTags } from '@nestjs/swagger';
 import { CreatePublicacionDto } from './dto/create-publicacion.dto';
 import { PublicacionesService } from './publicaciones.service';
-import { Controller, Body, Post, Get, Param, Put, Delete, Query } from '@nestjs/common';
+import { Controller, Body, Post, Get, Param, Put, Patch, Delete, Query } from '@nestjs/common';
 import { SearchPublicacionDto } from './dto/search-publicacion.dto';
 import { UpdatePublicacionDto } from './dto/update-publicacion.dto';
 
@@ -40,6 +40,16 @@ export class PublicacionesController {
 
     @Put(':id')
     update(
+        @Param('id')
+        id: string,
+        @Body()
+        dto: UpdatePublicacionDto,
+    ) {
+        return this.publicacionesService.update(id, dto);
+    }
+
+    @Patch(':id')
+    patch(
         @Param('id')
         id: string,
         @Body()
