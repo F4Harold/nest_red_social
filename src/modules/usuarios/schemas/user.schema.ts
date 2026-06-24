@@ -12,6 +12,7 @@ export type UserDocument = User & Document;
 
 @Schema({
     timestamps: true,
+    collection: 'usuarios',
 })
 
 export class User {

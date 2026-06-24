@@ -1,29 +1,30 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
-import { RolesService } from './roles.service';
-import { Role } from './schemas/roles.schema';
+import { PublicacionesService } from './publicaciones.service';
+import { Publicacion } from './schemas/publicacion.schema';
 
-describe('RolesService', () => {
-  let service: RolesService;
-  const roleModelMock = {
+describe('PublicacionesService', () => {
+  let service: PublicacionesService;
+  const publicacionModelMock = {
     create: jest.fn(),
     find: jest.fn(),
     findById: jest.fn(),
     findByIdAndUpdate: jest.fn(),
+    countDocuments: jest.fn(),
   };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        RolesService,
+        PublicacionesService,
         {
-          provide: getModelToken(Role.name),
-          useValue: roleModelMock,
+          provide: getModelToken(Publicacion.name),
+          useValue: publicacionModelMock,
         },
       ],
     }).compile();
 
-    service = module.get<RolesService>(RolesService);
+    service = module.get<PublicacionesService>(PublicacionesService);
   });
 
   it('should be defined', () => {

@@ -5,7 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RolesModule } from './modules/roles/roles.module';
 import { UsuariosModule } from './modules/usuarios/usuarios.module';
-
+import { PublicacionesModule } from './modules/publicaciones/publicaciones.module';
 
 
 @Module({
@@ -16,6 +16,7 @@ import { UsuariosModule } from './modules/usuarios/usuarios.module';
     }),
     RolesModule,
     UsuariosModule,
+    PublicacionesModule,
     MongooseModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
