@@ -7,6 +7,8 @@ import { RolesModule } from './modules/roles/roles.module';
 import { UsuariosModule } from './modules/usuarios/usuarios.module';
 import { PublicacionesModule } from './modules/publicaciones/publicaciones.module';
 import { ComentariosModule } from './modules/comentarios/comentarios.module';
+import { SeguidoresModule } from './modules/seguidores/seguidores.module';
+import { ReaccionesModule } from './modules/reacciones/reacciones.module';
 
 
 @Module({
@@ -19,6 +21,8 @@ import { ComentariosModule } from './modules/comentarios/comentarios.module';
     UsuariosModule,
     PublicacionesModule,
     ComentariosModule,
+    SeguidoresModule,
+    ReaccionesModule,
     MongooseModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
