@@ -13,30 +13,21 @@ export type PublicacionDocument = Publicacion & Document;
 
 @Schema({
     timestamps: true,
+    collection: 'publicaciones',
 })
 
 export class Publicacion {
-    @Prop({
-        required: true,
-    })
-    titulo!: string;
-
-    @Prop({
-        required: true,
-    })
-    descripcion!: string;
-
-    @Prop({
-        required: false,
-    })
-    contenido?: string;
-
     @Prop({
         type: Types.ObjectId,
         ref: 'User',
         required: true,
     })
-    usuario_id!: Types.ObjectId;
+    usuarios!: Types.ObjectId;
+
+    @Prop({
+        required: true,
+    })
+    contenido!: string;
 
     @Prop({
         default: true,
@@ -46,5 +37,4 @@ export class Publicacion {
 
 export const PublicacionSchema = SchemaFactory.createForClass(Publicacion);
 
-PublicacionSchema.index({ usuario_id: 1 });
-PublicacionSchema.index({ titulo: 1 });
+PublicacionSchema.index({ usuarios: 1 });
