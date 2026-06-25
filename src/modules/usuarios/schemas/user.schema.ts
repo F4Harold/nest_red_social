@@ -12,6 +12,7 @@ export type UserDocument = User & Document;
 
 @Schema({
     timestamps: true,
+    collection: 'usuarios',
 })
 
 export class User {
@@ -44,5 +45,3 @@ export class User {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
-
-UserSchema.index({correo:1})

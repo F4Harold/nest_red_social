@@ -5,7 +5,7 @@ import { Model } from "mongoose";
 import { CreateUserDto } from "./dto/create-user.dto";
 import * as bcrypt from 'bcrypt';
 import { BadRequestException, NotAcceptableException, NotFoundException } from "@nestjs/common/exceptions";
-import { ResponseHelper } from "src/common/helpers/response.helper";
+import { ResponseHelper } from "../../common/helpers/response.helper";
 import { SearchUserDto } from "./dto/search-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 
@@ -45,13 +45,18 @@ export class UsuariosService {
      */
 
 
-    async findAll(search:SearchUserDto){
+    async findAll(search: SearchUserDto = {}){
         // crear filtro
-        const filter: any = {activo: true};
+        const filter: any = {
+            $or: [
+                { activo: true },
+                { activo: { $exists: false } },
+            ],
+        };
 
         //filtro por nombre
         if(search.name){
-            filter.name={
+            filter.nombre={
                 $regex: search.name,
                 $options: 'i'
             };
@@ -75,12 +80,17 @@ export class UsuariosService {
         });
     }
 
+    async findInactive(){
+        const usuarios = await this.userModule.find({ activo: false }).populate('role_id');
+        return ResponseHelper.success(usuarios);
+    }
+
     /**
      * consulta por id de usuario
      */
 
     async findOne(id:string){
-        const user = await this .userModule.findById(id).populate('rol_id');
+        const user = await this.userModule.findById(id).populate('role_id');
         
 
         if(!user){
@@ -128,6 +138,18 @@ export class UsuariosService {
         const deleteuser = await this.userModule.findByIdAndUpdate(id,{activo: false}, {new: true});
 
         return ResponseHelper.success(deleteuser);
+    }
+
+    async restore(id:string){
+        const user = await this.userModule.findById(id);
+
+        if(!user){
+            throw new NotFoundException('usuario no encontrado')
+        }
+
+        const restoredUser = await this.userModule.findByIdAndUpdate(id,{activo: true}, {new: true});
+
+        return ResponseHelper.success(restoredUser);
     }
 
 }

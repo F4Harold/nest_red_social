@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Role } from './schemas/roles.schema';
 import { Model } from 'mongoose';
 import { CreateRoleDto } from './dto/create-roles.dto';
-import { ResponseHelper } from 'src/common/helpers/response.helper';
+import { ResponseHelper } from '../../common/helpers/response.helper';
 import { UpdateRoleDto } from './dto/update-roles.dto';
 
 @Injectable()
