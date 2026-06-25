@@ -67,6 +67,11 @@ export class SeguidoresService {
         });
     }
 
+    async findInactive() {
+        const seguidores = await this.seguidorModel.find({ activo: false }).populate('seguidor_id').populate('seguido_id');
+        return ResponseHelper.success(seguidores);
+    }
+
     /**
      * consulta por id de seguidor
      */
@@ -111,5 +116,17 @@ export class SeguidoresService {
         const deleteSeguidor = await this.seguidorModel.findByIdAndUpdate(id, {activo: false}, {new: true});
 
         return ResponseHelper.success(deleteSeguidor);
+    }
+
+    async restore(id: string) {
+        const seguidor = await this.seguidorModel.findById(id);
+
+        if (!seguidor) {
+            throw new NotFoundException('Seguidor no encontrado');
+        }
+
+        const restoredSeguidor = await this.seguidorModel.findByIdAndUpdate(id, {activo: true}, {new: true});
+
+        return ResponseHelper.success(restoredSeguidor);
     }
 }

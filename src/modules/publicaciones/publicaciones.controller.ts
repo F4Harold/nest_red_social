@@ -30,6 +30,11 @@ export class PublicacionesController {
         return this.publicacionesService.findAll(search);
     }
 
+    @Get('inactivos')
+    findInactive() {
+        return this.publicacionesService.findInactive();
+    }
+
     @Get(':id')
     findOne(
         @Param('id')
@@ -56,6 +61,14 @@ export class PublicacionesController {
         dto: UpdatePublicacionDto,
     ) {
         return this.publicacionesService.update(id, dto);
+    }
+
+    @Patch(':id/restaurar')
+    restore(
+        @Param('id')
+        id: string,
+    ) {
+        return this.publicacionesService.restore(id);
     }
 
     @Delete(':id')

@@ -30,6 +30,11 @@ export class SeguidoresController {
         return this.seguidoresService.findAll(search);
     }
 
+    @Get('inactivos')
+    findInactive() {
+        return this.seguidoresService.findInactive();
+    }
+
     @Get(':id')
     findOne(
         @Param('id')
@@ -56,6 +61,14 @@ export class SeguidoresController {
         dto: UpdateSeguidorDto,
     ) {
         return this.seguidoresService.update(id, dto);
+    }
+
+    @Patch(':id/restaurar')
+    restore(
+        @Param('id')
+        id: string,
+    ) {
+        return this.seguidoresService.restore(id);
     }
 
     @Delete(':id')

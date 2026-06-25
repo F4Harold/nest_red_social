@@ -100,11 +100,27 @@ export class PublicacionesService {
     return ResponseHelper.success(deletedPublicacion);
   }
 
-  async findInactive() {
-    const publicaciones = await this.publicacionModel
-      .find({ activo: false })
-      .populate('usuarios');
+    async restore(id: string) {
+        const publicacion = await this.publicacionModel.findById(id);
 
-    return ResponseHelper.success(publicaciones);
-  }
+        if (!publicacion) {
+            throw new NotFoundException('Publicacion no encontrada');
+        }
+
+        const restoredPublicacion = await this.publicacionModel.findByIdAndUpdate(
+            id,
+            { activo: true },
+            { new: true },
+        );
+
+        return ResponseHelper.success(restoredPublicacion);
+    }
+
+    async findInactive() {
+        const publicaciones = await this.publicacionModel
+            .find({ activo: false })
+            .populate('usuarios');
+
+        return ResponseHelper.success(publicaciones);
+    }
 }

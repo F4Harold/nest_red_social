@@ -120,4 +120,21 @@ export class ReaccionesService {
 
         return ResponseHelper.success(deleteReaccion);
     }
+
+    async findInactive() {
+        const reacciones = await this.reaccionModel.find({ activo: false }).populate('publicacion_id').populate('usuario_id');
+        return ResponseHelper.success(reacciones);
+    }
+
+    async restore(id: string) {
+        const reaccion = await this.reaccionModel.findById(id);
+
+        if (!reaccion) {
+            throw new NotFoundException('Reaccion no encontrada');
+        }
+
+        const restoredReaccion = await this.reaccionModel.findByIdAndUpdate(id, { activo: true }, { new: true });
+
+        return ResponseHelper.success(restoredReaccion);
+    }
 }

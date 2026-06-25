@@ -103,6 +103,22 @@ export class ComentariosService {
     return ResponseHelper.success(deletedComentario);
   }
 
+  async restore(id: string) {
+    const comentario = await this.comentarioModel.findById(id);
+
+    if (!comentario) {
+      throw new NotFoundException('Comentario no encontrado');
+    }
+
+    const restoredComentario = await this.comentarioModel.findByIdAndUpdate(
+      id,
+      { activo: true },
+      { new: true },
+    );
+
+    return ResponseHelper.success(restoredComentario);
+  }
+
   async findInactive() {
     const comentarios = await this.comentarioModel
       .find({ activo: false })
@@ -112,3 +128,4 @@ export class ComentariosService {
     return ResponseHelper.success(comentarios);
   }
 }
+

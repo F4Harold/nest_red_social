@@ -30,6 +30,11 @@ export class ReaccionesController {
         return this.reaccionesService.findAll(search);
     }
 
+    @Get('inactivos')
+    findInactive() {
+        return this.reaccionesService.findInactive();
+    }
+
     @Get(':id')
     findOne(
         @Param('id')
@@ -56,6 +61,14 @@ export class ReaccionesController {
         dto: UpdateReaccionDto,
     ) {
         return this.reaccionesService.update(id, dto);
+    }
+
+    @Patch(':id/restaurar')
+    restore(
+        @Param('id')
+        id: string,
+    ) {
+        return this.reaccionesService.restore(id);
     }
 
     @Delete(':id')

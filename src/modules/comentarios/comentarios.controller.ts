@@ -30,6 +30,11 @@ export class ComentariosController {
         return this.comentariosService.findAll(search);
     }
 
+    @Get('inactivos')
+    findInactive() {
+        return this.comentariosService.findInactive();
+    }
+
     @Get(':id')
     findOne(
         @Param('id')
@@ -56,6 +61,14 @@ export class ComentariosController {
         dto: UpdateComentarioDto,
     ) {
         return this.comentariosService.update(id, dto);
+    }
+
+    @Patch(':id/restaurar')
+    restore(
+        @Param('id')
+        id: string,
+    ) {
+        return this.comentariosService.restore(id);
     }
 
     @Delete(':id')

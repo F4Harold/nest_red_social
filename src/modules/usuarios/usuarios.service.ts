@@ -80,6 +80,11 @@ export class UsuariosService {
         });
     }
 
+    async findInactive(){
+        const usuarios = await this.userModule.find({ activo: false }).populate('role_id');
+        return ResponseHelper.success(usuarios);
+    }
+
     /**
      * consulta por id de usuario
      */
@@ -133,6 +138,18 @@ export class UsuariosService {
         const deleteuser = await this.userModule.findByIdAndUpdate(id,{activo: false}, {new: true});
 
         return ResponseHelper.success(deleteuser);
+    }
+
+    async restore(id:string){
+        const user = await this.userModule.findById(id);
+
+        if(!user){
+            throw new NotFoundException('usuario no encontrado')
+        }
+
+        const restoredUser = await this.userModule.findByIdAndUpdate(id,{activo: true}, {new: true});
+
+        return ResponseHelper.success(restoredUser);
     }
 
 }
