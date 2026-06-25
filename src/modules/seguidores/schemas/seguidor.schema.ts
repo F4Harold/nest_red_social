@@ -1,0 +1,43 @@
+import {
+    Prop,
+    Schema,
+    SchemaFactory,
+} from '@nestjs/mongoose';
+import { Document, Types } from 'mongoose';
+
+export type SeguidorDocument = Seguidor & Document;
+
+/**
+ * coleccion de seguidores
+ */
+
+@Schema({
+    timestamps: true,
+    collection: 'seguidores',
+})
+
+export class Seguidor {
+    @Prop({
+        type: Types.ObjectId,
+        ref: 'User',
+        required: true,
+    })
+    seguidor_id!: Types.ObjectId;
+
+    @Prop({
+        type: Types.ObjectId,
+        ref: 'User',
+        required: true,
+    })
+    seguido_id!: Types.ObjectId;
+
+    @Prop({
+        default: true,
+    })
+    activo!: boolean;
+}
+
+export const SeguidorSchema = SchemaFactory.createForClass(Seguidor);
+
+SeguidorSchema.index({ seguidor_id: 1 });
+SeguidorSchema.index({ seguido_id: 1 });
